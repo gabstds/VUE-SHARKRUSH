@@ -1,13 +1,6 @@
-<script setup>
-import CalcIMC from './components/CalcIMC.vue';
-</script>
 
 <template>
-  <div>
-    
-    
-  </div>
-  <CalcIMC />
+  <router-view />
 </template>
 
 <style scoped>

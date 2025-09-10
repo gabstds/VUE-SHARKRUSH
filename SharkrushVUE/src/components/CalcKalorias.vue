@@ -17,10 +17,8 @@
 					<span class="nav-text">Calculadora Kalorias</span>
 				</a>
 			</li>
-			
 		</ul>
 	</nav>
-
 	<div class="background-animation">
 		<div class="shark-fin" style="top: 20%; animation-delay: 0s;"></div>
 		<div class="shark-fin" style="top: 60%; animation-delay: 3s;"></div>
@@ -28,63 +26,83 @@
 	</div>
 
 	<div class="container">
-		<h2 class="page-title">Calculadora IMC</h2>
+		<h2 class="page-title">Calculadora de Calorias</h2>
+
 		<div class="calculator-card">
 			<form @submit.prevent="handleSubmit">
 				<div class="form-group">
+					<label for="sex">Sexo</label>
+					<div class="input-container">
+						<select id="sex" v-model="sex" @input="clearError('sex')" required>
+							<option value="">Selecione</option>
+							<option value="male">Masculino</option>
+							<option value="female">Feminino</option>
+						</select>
+					</div>
+					<div class="error-message" v-show="sexError">{{ sexError }}</div>
+				</div>
+				<div class="form-group">
+					<label for="age">Idade (anos)</label>
+					<div class="input-container">
+						<input type="number" id="age" min="10" max="120" placeholder="Ex: 30" v-model.number="age" @input="clearError('age')" required>
+						<span class="input-icon">🎂</span>
+					</div>
+					<div class="error-message" v-show="ageError">{{ ageError }}</div>
+				</div>
+				<div class="form-group">
 					<label for="weight">Peso (kg)</label>
 					<div class="input-container">
-						<input type="number" id="weight" step="0.1" min="1" max="500" placeholder="Ex: 70.5" v-model.number="weight" @input="clearError('weight')" required>
+						<input type="number" id="weight" step="0.1" min="30" max="300" placeholder="Ex: 70.5" v-model.number="weight" @input="clearError('weight')" required>
 						<span class="input-icon">⚖️</span>
 					</div>
 					<div class="error-message" v-show="weightError">{{ weightError }}</div>
 				</div>
-
 				<div class="form-group">
 					<label for="height">Altura (cm)</label>
 					<div class="input-container">
-						<input type="number" id="height" step="0.1" min="50" max="250" placeholder="Ex: 175" v-model.number="height" @input="clearError('height')" required>
+						<input type="number" id="height" step="0.1" min="120" max="250" placeholder="Ex: 175" v-model.number="height" @input="clearError('height')" required>
 						<span class="input-icon">📏</span>
 					</div>
 					<div class="error-message" v-show="heightError">{{ heightError }}</div>
 				</div>
-
+				<div class="form-group">
+					<label for="activity">Nível de Atividade</label>
+					<div class="input-container">
+						<select id="activity" v-model.number="activity" @input="clearError('activity')" required>
+							<option value="">Selecione</option>
+							<option value="1.2">Sedentário (pouco ou nenhum exercício)</option>
+							<option value="1.375">Levemente ativo (exercício leve 1-3 dias/semana)</option>
+							<option value="1.55">Moderadamente ativo (exercício moderado 3-5 dias/semana)</option>
+							<option value="1.725">Muito ativo (exercício intenso 6-7 dias/semana)</option>
+							<option value="1.9">Extremamente ativo (exercício muito intenso, trabalho físico)</option>
+						</select>
+					</div>
+					<div class="error-message" v-show="activityError">{{ activityError }}</div>
+				</div>
 				<button type="submit" class="calculate-btn">
-					Calcular IMC
+					Calcular Calorias
 				</button>
 			</form>
 
 			<div class="result-container" :class="{ show: showResult }">
-				<div class="imc-value" :style="{ color: imcColor, animation: imcPulse ? 'pulse 0.6s ease-in-out' : '' }">{{ imcValue }}</div>
-				<div class="imc-category" :style="{ color: imcColor }">{{ imcCategory }}</div>
-				<div class="imc-description">{{ imcDescription }}</div>
+				<div class="imc-value" :style="{ color: '#ff0000', animation: caloriePulse ? 'pulse 0.6s ease-in-out' : '' }">{{ calorieValue }}</div>
+				<div class="imc-category" :style="{ color: '#ff0000' }">{{ calorieCategory }}</div>
+				<div class="imc-description">{{ calorieDescription }}</div>
 			</div>
 
 			<div class="imc-table">
-				<h3>Tabela de Referência IMC</h3>
+				<h3>O que significam as calorias diárias?</h3>
 				<div class="table-row">
-					<span>Abaixo do peso</span>
-					<span>&lt; 18.5</span>
+					<span>Manutenção</span>
+					<span>Consuma o valor calculado</span>
 				</div>
 				<div class="table-row">
-					<span>Peso normal</span>
-					<span>18.5 - 24.9</span>
+					<span>Perda de peso</span>
+					<span>Reduza ~500 kcal/dia</span>
 				</div>
 				<div class="table-row">
-					<span>Sobrepeso</span>
-					<span>25.0 - 29.9</span>
-				</div>
-				<div class="table-row">
-					<span>Obesidade Grau I</span>
-					<span>30.0 - 34.9</span>
-				</div>
-				<div class="table-row">
-					<span>Obesidade Grau II</span>
-					<span>35.0 - 39.9</span>
-				</div>
-				<div class="table-row">
-					<span>Obesidade Grau III</span>
-					<span>&gt; 40.0</span>
+					<span>Ganho de peso</span>
+					<span>Aumente ~500 kcal/dia</span>
 				</div>
 			</div>
 		</div>
@@ -95,122 +113,103 @@
 import { ref, onMounted } from 'vue';
 
 export default {
-	name: 'CalcIMC',
+	name: 'CalcKalorias',
 		setup(_, { emit }) {
-		const weight = ref(null);
-		const height = ref(null);
-		const weightError = ref('');
-		const heightError = ref('');
-		const showResult = ref(false);
-		const imcValue = ref('');
-		const imcCategory = ref('');
-		const imcDescription = ref('');
-		const imcColor = ref('white');
-		const imcPulse = ref(false);
-		const activeNav = ref('calculadora-imc');
+		const activeNav = ref('calculadora-kalorias');
 
-
-			// Navegação com vue-router
-			const goTo = (nav) => {
-				activeNav.value = nav;
-				if (nav === 'calculadora-imc') {
-					window.scrollTo(0, 0);
-					if (typeof window !== 'undefined' && window.location.pathname !== '/calimc') {
-						// Usar router push se disponível
-						if (window.$router) {
-							window.$router.push('/calimc');
-						} else {
-							window.location.href = '/calimc';
-						}
-					}
-				} else if (nav === 'calculadora-kalorias') {
-					window.scrollTo(0, 0);
-					if (typeof window !== 'undefined' && window.location.pathname !== '/calckalorias') {
-						if (window.$router) {
-							window.$router.push('/calckalorias');
-						} else {
-							window.location.href = '/calckalorias';
-						}
+		// Navegação com vue-router
+		const goTo = (nav) => {
+			activeNav.value = nav;
+			if (nav === 'calculadora-imc') {
+				window.scrollTo(0, 0);
+				if (typeof window !== 'undefined' && window.location.pathname !== '/calimc') {
+					if (window.$router) {
+						window.$router.push('/calimc');
+					} else {
+						window.location.href = '/calimc';
 					}
 				}
-			};
+			} else if (nav === 'calculadora-kalorias') {
+				window.scrollTo(0, 0);
+				if (typeof window !== 'undefined' && window.location.pathname !== '/calckalorias') {
+					if (window.$router) {
+						window.$router.push('/calckalorias');
+					} else {
+						window.location.href = '/calckalorias';
+					}
+				}
+			}
+		};
+		const sex = ref('');
+		const age = ref(null);
+		const weight = ref(null);
+		const height = ref(null);
+		const activity = ref('');
+		const sexError = ref('');
+		const ageError = ref('');
+		const weightError = ref('');
+		const heightError = ref('');
+		const activityError = ref('');
+		const showResult = ref(false);
+		const calorieValue = ref('');
+		const calorieCategory = ref('');
+		const calorieDescription = ref('');
+		const caloriePulse = ref(false);
 
 		function clearError(field) {
+			if (field === 'sex') sexError.value = '';
+			if (field === 'age') ageError.value = '';
 			if (field === 'weight') weightError.value = '';
 			if (field === 'height') heightError.value = '';
+			if (field === 'activity') activityError.value = '';
 		}
 
-		function validateInputs(weightVal, heightVal) {
+		function validateInputs(sexVal, ageVal, weightVal, heightVal, activityVal) {
 			let valid = true;
-			if (!weightVal || weightVal <= 0 || weightVal > 500) {
-				weightError.value = 'Por favor, insira um peso válido (1-500 kg)';
+			if (!sexVal) {
+				sexError.value = 'Por favor, selecione o sexo';
 				valid = false;
 			}
-			if (!heightVal || heightVal <= 0 || heightVal > 250) {
-				heightError.value = 'Por favor, insira uma altura válida (50-250 cm)';
+			if (!ageVal || ageVal < 10 || ageVal > 120) {
+				ageError.value = 'Por favor, insira uma idade válida (10-120 anos)';
+				valid = false;
+			}
+			if (!weightVal || weightVal < 30 || weightVal > 300) {
+				weightError.value = 'Por favor, insira um peso válido (30-300 kg)';
+				valid = false;
+			}
+			if (!heightVal || heightVal < 120 || heightVal > 250) {
+				heightError.value = 'Por favor, insira uma altura válida (120-250 cm)';
+				valid = false;
+			}
+			if (!activityVal) {
+				activityError.value = 'Por favor, selecione o nível de atividade';
 				valid = false;
 			}
 			return valid;
 		}
 
-		function calculateIMC(weightVal, heightVal) {
-			const heightInMeters = heightVal / 100;
-			return weightVal / (heightInMeters * heightInMeters);
-		}
-
-		function getIMCCategory(imc) {
-			if (imc < 18.5) {
-				return {
-					category: 'Abaixo do Peso',
-					description: 'Você está abaixo do peso ideal. Considere uma dieta balanceada para ganhar peso de forma saudável.',
-					color: '#00bfff'
-				};
-			} else if (imc < 25) {
-				return {
-					category: 'Peso Normal',
-					description: 'Parabéns! Seu peso está dentro da faixa considerada saudável. Continue mantendo hábitos saudáveis.',
-					color: '#00ff00'
-				};
-			} else if (imc < 30) {
-				return {
-					category: 'Sobrepeso',
-					description: 'Você está com sobrepeso. Considere uma dieta balanceada e exercícios regulares.',
-					color: '#ffa500'
-				};
-			} else if (imc < 35) {
-				return {
-					category: 'Obesidade Grau I',
-					description: 'Obesidade grau I. É recomendável buscar orientação médica e nutricional.',
-					color: '#ff6600'
-				};
-			} else if (imc < 40) {
-				return {
-					category: 'Obesidade Grau II',
-					description: 'Obesidade grau II. É importante buscar acompanhamento médico especializado.',
-					color: '#ff3300'
-				};
+		function calculateCalories(sexVal, ageVal, weightVal, heightVal, activityVal) {
+			let tmb;
+			if (sexVal === 'male') {
+				tmb = 88.36 + (13.4 * weightVal) + (4.8 * heightVal) - (5.7 * ageVal);
 			} else {
-				return {
-					category: 'Obesidade Grau III',
-					description: 'Obesidade grau III. Procure acompanhamento médico urgente para cuidar da sua saúde.',
-					color: '#ff0000'
-				};
+				tmb = 447.6 + (9.2 * weightVal) + (3.1 * heightVal) - (4.3 * ageVal);
 			}
+			return tmb * activityVal;
 		}
 
 		function handleSubmit() {
-			if (validateInputs(weight.value, height.value)) {
-				const imc = calculateIMC(weight.value, height.value);
-				const categoryInfo = getIMCCategory(imc);
-				imcValue.value = imc.toFixed(1);
-				imcCategory.value = categoryInfo.category;
-				imcDescription.value = categoryInfo.description;
-				imcColor.value = categoryInfo.color;
+			if (validateInputs(sex.value, age.value, weight.value, height.value, activity.value)) {
+				const calories = calculateCalories(sex.value, age.value, weight.value, height.value, activity.value);
+				calorieValue.value = `${Math.round(calories)} kcal/dia`;
+				calorieCategory.value = 'Calorias para manutenção do peso';
+				calorieDescription.value = 'Para perder peso, consuma cerca de 500 kcal a menos por dia. Para ganhar peso, consuma cerca de 500 kcal a mais.';
 				showResult.value = true;
-				imcPulse.value = false;
+				caloriePulse.value = false;
 				setTimeout(() => {
-					imcPulse.value = true;
-					setTimeout(() => imcPulse.value = false, 600);
+					caloriePulse.value = true;
+					setTimeout(() => caloriePulse.value = false, 600);
 				}, 300);
 			}
 		}
@@ -256,16 +255,21 @@ export default {
 		});
 
 			return {
+				sex,
+				age,
 				weight,
 				height,
+				activity,
+				sexError,
+				ageError,
 				weightError,
 				heightError,
+				activityError,
 				showResult,
-				imcValue,
-				imcCategory,
-				imcDescription,
-				imcColor,
-				imcPulse,
+				calorieValue,
+				calorieCategory,
+				calorieDescription,
+				caloriePulse,
 				handleSubmit,
 				clearError,
 				activeNav,
@@ -276,8 +280,6 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
-
 * {
 	margin: 0;
 	padding: 0;
@@ -290,9 +292,6 @@ body {
 	min-height: 100vh;
 	color: white;
 	overflow-x: hidden;
-	display: flex;
-	justify-content: center;
-	align-items: center;
 }
 
 .background-animation {
@@ -322,38 +321,39 @@ body {
 }
 
 .container {
+    
 	max-width: 500px;
-	width: 100%;
-	padding: 20px;
-	min-height: auto;
+	margin: 0 auto;
+	padding: 20px 0;
+	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	margin-left: 70px;
+	position: relative;
+    
 }
 
 .logo {
 	text-align: center;
-	margin-bottom: 20px;
+	margin-bottom: 40px;
 	animation: fadeInDown 1s ease-out;
 }
 
 .logo h1 {
-	margin-top: 10px;
 	font-size: 3rem;
 	font-weight: bold;
-	background: linear-gradient(45deg, #ffffff, #ffffff, #ffffff);
+	background: linear-gradient(45deg, #ff0000, #ffffff, #ff0000);
 	background-size: 200% 200%;
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	background-clip: text;
 	animation: gradientShift 3s ease-in-out infinite;
-	text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+	text-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
 }
 
 .logo p {
-	color: #adadad;
+	color: #cccccc;
 	font-size: 1.1rem;
 	margin-top: 10px;
 }
@@ -380,13 +380,12 @@ body {
 	border-radius: 20px;
 	padding: 40px;
 	width: 100%;
-	max-width: 400px;
-	margin: 0 auto;
 	box-shadow: 0 20px 40px rgba(255, 0, 0, 0.2);
 	backdrop-filter: blur(10px);
 	animation: fadeInUp 1s ease-out 0.3s both;
 	position: relative;
 	overflow: hidden;
+    
 }
 
 .calculator-card::before {
@@ -421,6 +420,7 @@ body {
 .form-group {
 	margin-bottom: 25px;
 	position: relative;
+    
 }
 
 .form-group label {
@@ -429,7 +429,6 @@ body {
 	color: #ffffff;
 	font-weight: bold;
 	font-size: 1.1rem;
-	user-select: none;
 }
 
 .input-container {
@@ -466,7 +465,6 @@ body {
 	transform: translateY(-50%);
 	color: #ff0000;
 	font-size: 1.2rem;
-	user-select: none;
 }
 
 .calculate-btn {
@@ -565,34 +563,91 @@ body {
 }
 
 .imc-table {
-	margin-top: 10px;
+	margin-top: 30px;
 	background: rgba(0, 0, 0, 0.3);
-	border-radius: 10px;
-	padding: 8px 10px;
+	border-radius: 15px;
+	padding: 20px;
 	border: 1px solid rgba(255, 0, 0, 0.2);
-	max-width: 320px;
-	font-size: 0.92rem;
+   
 }
 
 .imc-table h3 {
 	color: #ff0000;
-	margin-bottom: 8px;
+	margin-bottom: 15px;
 	text-align: center;
-	font-size: 1.1rem;
 }
 
 .table-row {
 	display: flex;
 	justify-content: space-between;
-	padding: 4px 0;
-	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-	font-size: 0.95em;
+	padding: 8px 0;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .table-row:last-child {
 	border-bottom: none;
 }
 
+@media (max-width: 600px) {
+	.container {
+		padding: 15px;
+	}
+	.calculator-card {
+		padding: 25px;
+	}
+	.logo h1 {
+		font-size: 2.5rem;
+	}
+}
+
+.logo img {
+	width: 100px;
+	height: auto;
+}
+
+/* Adicione estilos para selects */
+.form-group select {
+	width: 100%;
+	padding: 15px 20px;
+	background: rgba(255, 255, 255, 0.15);
+	border: 2px solid rgba(255, 0, 0, 0.5);
+	border-radius: 10px;
+	color: #fff;
+	font-size: 1.1rem;
+	transition: all 0.3s ease;
+	backdrop-filter: blur(5px);
+	appearance: none;
+	-webkit-appearance: none;
+	outline: none;
+	box-shadow: 0 2px 8px rgba(255,0,0,0.08);
+	cursor: pointer;
+	position: relative;
+}
+.form-group select:focus {
+	border-color: #ff0000;
+	box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+	transform: scale(1.02);
+}
+.input-container select {
+	background-image: url("data:image/svg+xml;utf8,<svg fill='red' height='18' viewBox='0 0 24 24' width='18' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+	background-repeat: no-repeat;
+	background-position: right 18px center;
+	background-size: 18px 18px;
+}
+
+/* Forçar cor preta nas opções dos selects de sexo e atividade */
+::v-deep select#sex option,
+::v-deep select#activity option {
+	color: #111 !important;
+	background: #fff !important;
+}
+
+/* Para navegadores que não suportam ::v-deep, usar select option direto */
+select#sex option,
+select#activity option {
+	color: #111 !important;
+	background: #fff !important;
+}
 /* ===== NAVBAR CSS INÍCIO ===== */
 .main-menu {
 	background: linear-gradient(180deg, #232323 0%, #1a1a1a 100%);
@@ -719,33 +774,6 @@ body {
 }
 /* ===== NAVBAR CSS FIM ===== */
 
-@media (max-width: 600px) {
-	body {
-		flex-direction: column;
-		align-items: stretch;
-	}
-	.container {
-		margin-left: 0 !important;
-		padding: 15px;
-	}
-	.calculator-card {
-		width: 100%;
-		max-width: 100%;
-		padding: 25px;
-	}
-	.logo h1 {
-		font-size: 2.5rem;
-	}
-}
-
-.logo img {
-	width: 100px;
-	height: auto;
-}
-
-.form-group label, .input-icon {
-	user-select: none;
-}
 /* Título da página acima do card */
 .page-title {
 	color: #fff;
@@ -755,6 +783,5 @@ body {
 	text-align: center;
 	letter-spacing: 1px;
 	text-shadow: 0 2px 8px #000, 0 0 2px #ff0000;
-    
 }
 </style>
