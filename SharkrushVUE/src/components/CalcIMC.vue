@@ -2,39 +2,9 @@
 <template>
 	<nav class="main-menu">
 		<div class="logo-container">
-			<img src="../views/midia/Logos/logoshark.png" alt="Logo" />
+			<img src="../components/midia/logoshark.png" alt="Logo" />
 		</div>
 		<ul>
-			<li>
-				<a href="#home" :class="{ active: activeNav === 'home' }" @click="setActive('home')">
-					<i class="fa fa-home nav-icon"></i>
-					<span class="nav-text">Home</span>
-				</a>
-			</li>
-			<li>
-				<a href="../views/sobre.html" :class="{ active: activeNav === 'sobre' }" @click="setActive('sobre')">
-					<i class="fa fa-info-circle nav-icon"></i>
-					<span class="nav-text">Sobre</span>
-				</a>
-			</li>
-			<li>
-				<a href="../views/gerador.html" :class="{ active: activeNav === 'gerador' }" @click="setActive('gerador')">
-					<i class="fa fa-cogs nav-icon"></i>
-					<span class="nav-text">Gerador</span>
-				</a>
-			</li>
-			<li>
-				<a href="#biblioteca" :class="{ active: activeNav === 'biblioteca' }" @click="setActive('biblioteca')">
-					<i class="fa fa-book nav-icon"></i>
-					<span class="nav-text">Biblioteca</span>
-				</a>
-			</li>
-			<li>
-				<a href="#meus-treinos" :class="{ active: activeNav === 'meus-treinos' }" @click="setActive('meus-treinos')">
-					<i class="fa fa-dumbbell nav-icon"></i>
-					<span class="nav-text">Meus Treinos</span>
-				</a>
-			</li>
 			<li>
 				<a href="#calculadora-imc" :class="{ active: activeNav === 'calculadora-imc' }" @click="setActive('calculadora-imc')">
 					<i class="fa fa-calculator nav-icon"></i>
@@ -47,12 +17,7 @@
 					<span class="nav-text">Calculadora Kalorias</span>
 				</a>
 			</li>
-			<li>
-				<a href="#academias-proximas" :class="{ active: activeNav === 'academias-proximas' }" @click="setActive('academias-proximas')">
-					<i class="fa fa-map-marker-alt nav-icon"></i>
-					<span class="nav-text">Academias Próximas</span>
-				</a>
-			</li>
+			
 		</ul>
 	</nav>
 
