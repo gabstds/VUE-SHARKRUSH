@@ -1,4 +1,3 @@
-
 <template>
 	<nav class="main-menu">
 		<div class="logo-container">
@@ -330,7 +329,7 @@ body {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	margin-left: 70px;
+	margin: 0 auto;
 }
 
 .logo {
@@ -736,6 +735,12 @@ body {
 	.logo h1 {
 		font-size: 2.5rem;
 	}
+}
+
+@media (min-width: 601px) {
+  .container {
+    margin-left: 0 !important;
+  }
 }
 
 .logo img {
