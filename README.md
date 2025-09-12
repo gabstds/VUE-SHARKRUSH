@@ -12,13 +12,6 @@ A aplicação permite calcular o **Índice de Massa Corporal (IMC)** e estimar a
 - CSS3  
 - JavaScript  
 
----
-
-## 📸 Demonstração  
-
-
-<img width="417" height="542" alt="image" src="https://github.com/user-attachments/assets/347e862c-b2e7-4d2a-aaac-e1ca308c66f9" />
-
 
 
 ---
@@ -39,11 +32,12 @@ A aplicação permite calcular o **Índice de Massa Corporal (IMC)** e estimar a
 
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/SEU-USUARIO/NOME-DO-REPOSITORIO.git
+   git clone https://github.com/gabstds/VUE-SHARKRUSH.git
+   
 
-   Acesse a pasta do projeto:
-
-2. cd NOME-DO-REPOSITORIO
+2. Acesse a pasta do projeto:
+   ```bash
+   cd SharkrushVUE
 
 
 3. Instale as dependências:
