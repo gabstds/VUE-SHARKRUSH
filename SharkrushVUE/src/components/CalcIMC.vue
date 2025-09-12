@@ -377,9 +377,9 @@ body {
 	background: rgba(0, 0, 0, 0.8);
 	border: 2px solid #ff0000;
 	border-radius: 20px;
-	padding: 40px;
+	padding: 40px 60px;
 	width: 100%;
-	max-width: 400px;
+	max-width: 900px;
 	margin: 0 auto;
 	box-shadow: 0 20px 40px rgba(255, 0, 0, 0.2);
 	backdrop-filter: blur(10px);
@@ -437,12 +437,12 @@ body {
 
 .form-group input {
 	width: 100%;
-	padding: 15px 20px;
+	padding: 15px 120px;
 	background: rgba(255, 255, 255, 0.1);
 	border: 2px solid rgba(255, 0, 0, 0.3);
 	border-radius: 10px;
 	color: white;
-	font-size: 1.1rem;
+	font-size: 1.25rem;
 	transition: all 0.3s ease;
 	backdrop-filter: blur(5px);
 }
