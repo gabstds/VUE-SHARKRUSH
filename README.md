@@ -4,13 +4,16 @@
 Projeto desenvolvido durante o **curso Técnico em Desenvolvimento de Sistemas no SENAI**.  
 A aplicação permite calcular o **Índice de Massa Corporal (IMC)** e estimar a **necessidade diária de calorias** de forma simples, rápida e responsiva.  
 
+---
+
 
 ## 🚀 Membros participantes
 - Augusto Sena
-- Gabriel Teixeira 
+- Gabriella Teixeira 
 - Miguel Fortunato
 - Guilherme Matos 
 
+---
 
 ## 🚀 Tecnologias Utilizadas
 - Vue.js 
@@ -18,7 +21,7 @@ A aplicação permite calcular o **Índice de Massa Corporal (IMC)** e estimar a
 - CSS3  
 - JavaScript  
 
-
+---
 
 ---
 
