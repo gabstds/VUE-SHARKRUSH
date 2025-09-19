@@ -48,9 +48,7 @@
 					<div class="error-message" v-show="heightError">{{ heightError }}</div>
 				</div>
 
-				<button type="submit" class="calculate-btn">
-					Calcular IMC
-				</button>
+				<CalculateButton text="Calcular IMC" />
 			</form>
 
 			<div class="result-container" :class="{ show: showResult }">
@@ -92,9 +90,13 @@
 
 <script>
 import { ref, onMounted } from 'vue';
+import CalculateButton from './CalculateButton.vue';
 
 export default {
 	name: 'CalcIMC',
+	components: {
+		CalculateButton
+	},
 		setup(_, { emit }) {
 		const weight = ref(null);
 		const height = ref(null);

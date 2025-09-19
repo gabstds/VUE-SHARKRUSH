@@ -1,4 +1,3 @@
-
 <template>
 	<nav class="main-menu">
 		<div class="logo-container">
@@ -79,9 +78,7 @@
 					</div>
 					<div class="error-message" v-show="activityError">{{ activityError }}</div>
 				</div>
-				<button type="submit" class="calculate-btn">
-					Calcular Calorias
-				</button>
+				<CalculateButton text="Calcular Calorias" />
 			</form>
 
 			<div class="result-container" :class="{ show: showResult }">
@@ -111,9 +108,13 @@
 
 <script>
 import { ref, onMounted } from 'vue';
+import CalculateButton from './CalculateButton.vue';
 
 export default {
 	name: 'CalcKalorias',
+	components: {
+		CalculateButton
+	},
 		setup(_, { emit }) {
 		const activeNav = ref('calculadora-kalorias');
 
