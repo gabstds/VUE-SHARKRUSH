@@ -8,10 +8,43 @@ A aplicação permite calcular o **Índice de Massa Corporal (IMC)** e estimar a
 
 
 ## 🚀 Membros participantes
-- Augusto Sena
-- Gabriella Teixeira 
-- Miguel Fortunato
-- Guilherme Matos 
+<table>
+  <tr>
+    <td align="center">
+      <a href="#" title="defina o título do link">
+        <img src="https://avatars.githubusercontent.com/u/173793677?v=4" width="100px;" alt="Foto do GitHub"/><br>
+        <sub>
+          <b>Augusto Sena</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="#" title="defina o título do link">
+        <img src="https://avatars.githubusercontent.com/u/173831336?v=4" width="100px;" alt="Foto do Mark Zuckerberg"/><br>
+        <sub>
+          <b>Gabriella Teixeira </b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="#" title="defina o título do link">
+        <img src="https://avatars.githubusercontent.com/u/173830217?v=4" width="100px;" alt="Foto do Steve Jobs"/><br>
+        <sub>
+          <b>Miguel Fortunato</b>
+        </sub>
+      </a>
+    </td>
+        <td align="center">
+      <a href="#" title="defina o título do link">
+        <img src="https://avatars.githubusercontent.com/u/173830987?v=4" width="100px;" alt="Foto do Mark Zuckerberg"/><br>
+        <sub>
+          <b>Guilherme Matos</b>
+        </sub>
+      </a>
+    </td>
+  </tr>
+</table>
+
 
 ---
 
