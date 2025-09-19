@@ -56,7 +56,7 @@ A aplicação permite calcular o **Índice de Massa Corporal (IMC)** e estimar a
 
 ---
 
----
+
 
 ## 👨‍💻 Funcionalidades
 ✔️ Cálculo automático do IMC a partir de peso e altura.  
